@@ -52,7 +52,7 @@ const renderOrganization = (item: Organization, onSelect: () => void) => (
         onClick={onSelect}
     >
         <div className="text-left">
-            <p className="font-semibold">{item.name}</p>
+            <p className="font-semibold">{item.work_name}</p>
             {item.inn && (
                 <p className="text-sm text-gray-600">ИНН: {item.inn}</p>
             )}
@@ -115,9 +115,9 @@ export const FIELD_CONFIG = [
         dataKey: 'organizations',
         searchPlaceholder: 'Поиск организации...',
         useCustomDialog: false,
-        getSearchValue: (item: Organization) => item.name,
+        getSearchValue: (item: Organization) => item.work_name,
         renderItem: renderOrganization,
-        getDisplayName: (item: Organization) => item.name
+        getDisplayName: (item: Organization) => item.work_name
     } satisfies IFieldConfig<Organization>,
 
     {

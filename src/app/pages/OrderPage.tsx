@@ -34,10 +34,9 @@ export type SelectedValues = {
 };
 
 const OrderPage = () => {
-    const { dictionaries } = useTableCrmApi();
-
+    const { dictionaries, isCreatingOrder, createOrderMutation } =
+        useTableCrmApi();
     const { logout } = useAuth();
-
     const navigate = useNavigate();
 
     const [selectedValues, setSelectedValues] = useState<SelectedValues>({
@@ -71,12 +70,66 @@ const OrderPage = () => {
         setSelectedValues(prev => ({ ...prev, [key]: value }));
     };
 
+    const createPayload = (status: boolean): CreateOrderPayload | null => {
+        if (
+            !selectedValues.client ||
+            !selectedValues.warehouse ||
+            !selectedValues.paybox ||
+            !selectedValues.organization ||
+            !selectedValues.priceType
+        ) {
+            toast.error('Заполните все обязательные поля');
+            return null;
+        }
+
+        return [
+            {
+                priority: 0,
+                dated: Math.floor(Date.now() / 1000),
+                operation: 'Заказ',
+                tax_included: true,
+                tax_active: true,
+                goods: [],
+                settings: {},
+                loyality_card_id: selectedValues.client.loyalty_card_id,
+                warehouse: selectedValues.warehouse.id,
+                contragent: selectedValues.client.id,
+                paybox: selectedValues.paybox.id,
+                organization: selectedValues.organization.id,
+                status,
+                paid_rubles: 0,
+                paid_lt: 0
+            }
+        ];
+    };
+
+    const handleCreateOrder = (status: boolean) => {
+        const payload = createPayload(status);
+        if (!payload) return;
+
+        createOrderMutation.mutate(payload, {
+            onSuccess: () => {
+                toast.success(
+                    status ? 'Заказ создан и проведен!' : 'Заказ создан!'
+                );
+                setSelectedValues({
+                    client: null,
+                    warehouse: null,
+                    paybox: null,
+                    organization: null,
+                    priceType: null
+                });
+            },
+            onError: error => {
+                toast.error(`Ошибка: ${error.message}`);
+            }
+        });
+    };
+
     const onLogout = () => {
         logout();
         toast.success('Вы вышли из аккаунта!');
-        setTimeout(() => {
-            navigate('/auth');
-        }, 200);
+        setTimeout(() => navigate('/auth'), 200);
     };
 
     return (
@@ -101,28 +154,22 @@ const OrderPage = () => {
                             value={selectedValues[field.key as FieldKey]}
                             onClick={() =>
                                 handleOpenModal(field.key as FieldKey)
-                            } // <- тоже каст
+                            }
                         />
                     ))}
 
                     <div className="pt-6 space-y-2">
                         <OrderCreateButton
-                            buttonText="Создать заказ"
-                            payload={[]}
-                            createOrder={(
-                                payload: CreateOrderPayload
-                            ): void => {
-                                throw new Error('Function not implemented.');
-                            }}
-                            isLoading={false}
+                            buttonText="Создать продажу"
+                            createOrder={() => handleCreateOrder(false)}
+                            isLoading={isCreatingOrder}
                         />
-                        <Button
-                            className="w-full text-md"
+                        <OrderCreateButton
+                            buttonText="Создать и провести"
+                            createOrder={() => handleCreateOrder(true)}
+                            isLoading={isCreatingOrder}
                             variant="outline"
-                            size="lg"
-                        >
-                            Создать и провести
-                        </Button>
+                        />
                     </div>
                 </div>
 

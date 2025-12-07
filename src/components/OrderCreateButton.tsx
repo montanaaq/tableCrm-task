@@ -1,25 +1,25 @@
 import { Button } from '@/components/ui/button';
-import type { CreateOrderPayload } from '@/shared/types/types';
 
 type Props = {
-    payload: CreateOrderPayload;
-    createOrder: (payload: CreateOrderPayload) => void;
+    createOrder: () => void;
     isLoading: boolean;
-    buttonText: string
+    buttonText: string;
+    variant?: 'default' | 'outline';
 };
 
 export const OrderCreateButton = ({
-    payload,
     createOrder,
     isLoading,
-    buttonText
+    buttonText,
+    variant = 'default'
 }: Props) => {
     return (
         <Button
             className="w-full text-md"
             size="lg"
+            variant={variant}
             disabled={isLoading}
-            onClick={() => createOrder(payload)}
+            onClick={createOrder}
         >
             {isLoading ? 'Создание...' : buttonText}
         </Button>

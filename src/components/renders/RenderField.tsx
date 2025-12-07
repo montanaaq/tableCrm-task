@@ -39,7 +39,7 @@ const RenderField: FC<RenderFieldProps> = ({
 
     return (
         <div>
-            <Label className="text-md font-semibold">{label}</Label>
+            <Label className="text-md font-semibold">{label}*</Label>
 
             {value ? (
                 <div className="mt-2 p-4 border rounded-lg">

@@ -26,7 +26,7 @@ export interface Paybox {
 
 export interface Organization {
     id: number;
-    name: string;
+    work_name: string;
     inn?: string;
     kpp?: string;
     address?: string;

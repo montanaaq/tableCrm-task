@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient, type UseMutationResult } from '@tanstack/react-query'
 import { tableCrmApi} from '@/services/api/tableCrm.service'
-import type { CreateOrderPayload, IDictionaries } from '@/shared/types/types'
+import type { CreateOrderPayload, IDictionaries, Order } from '@/shared/types/types'
 import { queryKeys } from '@/services/api/queryKeys'
 import { useAuth } from './useAuthReturn'
 
@@ -13,6 +13,8 @@ type UseTableCrmApiResult = {
         error: Error | null;
         refetch: () => void;
     };
+
+    createOrderMutation: UseMutationResult<Order[], Error, CreateOrderPayload, unknown>
 
     createOrder: (payload: CreateOrderPayload) => unknown;
     createOrderAsync: (payload: CreateOrderPayload) => Promise<unknown>;
@@ -107,6 +109,8 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
             error: orders.error,
             refetch: orders.refetch,
         },
+
+        createOrderMutation,
 
         createOrder: createOrderMutation.mutate,
         createOrderAsync: createOrderMutation.mutateAsync,
