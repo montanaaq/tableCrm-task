@@ -63,14 +63,14 @@ export function ClientSearchDialog({
                             <div className="flex items-center justify-center py-8">
                                 <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
                             </div>
-                        ) : data?.results.length === 0 ? (
+                        ) : data?.result.length === 0 ? (
                             <div className="text-center py-8 text-gray-500">
                                 {debouncedPhone
                                     ? 'Клиенты не найдены'
                                     : 'Введите телефон для поиска'}
                             </div>
                         ) : (
-                            data?.results.map((client: Contragent) => (
+                            data?.result.map((client: Contragent) => (
                                 <Button
                                     key={client.id}
                                     variant="outline"

@@ -93,8 +93,14 @@ export function BaseSelectDialog<T>({
                                 {emptyMessage}
                             </div>
                         ) : (
-                            filteredData.map(item => (
-                                <div key={`${item}_key`}>
+                            filteredData.map((item, index) => (
+                                <div
+                                    key={
+                                        (item as any).id ||
+                                        (item as any).name ||
+                                        index
+                                    }
+                                >
                                     {renderItem(item, () => handleSelect(item))}
                                 </div>
                             ))

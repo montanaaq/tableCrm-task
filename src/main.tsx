@@ -25,7 +25,7 @@ createRoot(
             <Router />
             <Toaster
                 expand
-                visibleToasts={4}
+                visibleToasts={4}   
                 position="bottom-right"
                 richColors
             />

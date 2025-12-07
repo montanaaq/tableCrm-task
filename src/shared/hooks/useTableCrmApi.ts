@@ -1,10 +1,27 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { tableCrmApi} from '@/services/api/tableCrm.service'
-import type { CreateOrderPayload } from '@/shared/types/types'
+import type { CreateOrderPayload, IDictionaries } from '@/shared/types/types'
 import { queryKeys } from '@/services/api/queryKeys'
 import { useAuth } from './useAuthReturn'
 
-export const useTableCrmApi = () => {
+type UseTableCrmApiResult = {
+    dictionaries: IDictionaries;
+
+    orders: {
+        data: any[];
+        isLoading: boolean;
+        error: Error | null;
+        refetch: () => void;
+    };
+
+    createOrder: (payload: CreateOrderPayload) => unknown;
+    createOrderAsync: (payload: CreateOrderPayload) => Promise<unknown>;
+
+    isCreatingOrder: boolean;
+    createOrderError: Error | null;
+};
+
+export const useTableCrmApi = (): UseTableCrmApiResult => {
     const { token } = useAuth()
     const queryClient = useQueryClient()
 
@@ -68,10 +85,10 @@ export const useTableCrmApi = () => {
 
     return {
         dictionaries: {
-            warehouses: warehouses.data?.results ?? [],
-            payboxes: payboxes.data?.results ?? [],
-            organizations: organizations.data?.results ?? [],
-            priceTypes: priceTypes.data?.results ?? [],
+            warehouses: warehouses.data?.result ?? [],
+            payboxes: payboxes.data?.result ?? [],
+            organizations: organizations.data?.result ?? [],
+            priceTypes: priceTypes.data?.result ?? [],
 
             isLoading: isLoadingDictionaries,
             error: dictionariesError,
@@ -85,7 +102,7 @@ export const useTableCrmApi = () => {
         },
 
         orders: {
-            data: orders.data?.results ?? [],
+            data: orders.data?.result ?? [],
             isLoading: orders.isLoading,
             error: orders.error,
             refetch: orders.refetch,

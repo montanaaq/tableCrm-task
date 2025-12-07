@@ -98,7 +98,7 @@ export interface ApiListResponse<T> {
     count: number;
     next: string | null;
     previous: string | null;
-    results: T[];
+    result: T[];
 }
 
 // ============= ЗАПРОСЫ =============
@@ -122,3 +122,14 @@ interface CreateOrderRequest {
 }
 
 export type CreateOrderPayload = CreateOrderRequest[];
+
+// Dictionaries
+export interface IDictionaries {
+    warehouses: Warehouse[];
+    payboxes: Paybox[];
+    organizations: Organization[];
+    priceTypes: PriceType[];
+    isLoading: boolean;
+    error: Error | null;
+    refetch: () => void;
+}
