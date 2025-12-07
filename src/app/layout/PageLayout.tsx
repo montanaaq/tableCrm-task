@@ -9,7 +9,7 @@ interface PageLayoutProps {
 const PageLayout: FC<PageLayoutProps> = ({ children, className }) => {
     return (
         <div
-            className={`h-auto w-full flex items-center-safe justify-center-safe p-14 ${className}`}
+            className={`h-auto w-full flex items-center-safe justify-center-safe px-6 py-20 ${className}`}
         >
             <Logo />
             {children}

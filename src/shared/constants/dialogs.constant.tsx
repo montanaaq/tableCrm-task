@@ -2,6 +2,7 @@ import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import type {
     Contragent,
+    Nomenclature,
     Organization,
     Paybox,
     PriceType,
@@ -75,6 +76,16 @@ const renderPriceType = (item: PriceType, onSelect: () => void) => (
     </Button>
 );
 
+const renderNomenclature = (item: Nomenclature, onSelect: () => void) => (
+    <Button
+        variant="outline"
+        className="w-full p-4 justify-between"
+        onClick={onSelect}
+    >
+        <p className="font-semibold">{item.name}</p>
+    </Button>
+);
+
 export const FIELD_CONFIG = [
     {
         key: 'client',
@@ -130,7 +141,18 @@ export const FIELD_CONFIG = [
         getSearchValue: (item: PriceType) => item.name,
         renderItem: renderPriceType,
         getDisplayName: (item: PriceType) => item.name
-    } satisfies IFieldConfig<PriceType>
+    } satisfies IFieldConfig<PriceType>,
+
+    {
+        key: 'nomenclature',
+        label: 'Товары',
+        required: true,
+        dataKey: 'nomenclatures',
+        searchPlaceholder: 'Поиск товаров...',
+        useCustomDialog: false,
+        getSearchValue: (item: Nomenclature) => item.name,
+        renderItem: renderNomenclature
+    } satisfies IFieldConfig<Nomenclature>
 ] as const;
 
 export type FieldConfigItem = (typeof FIELD_CONFIG)[number];

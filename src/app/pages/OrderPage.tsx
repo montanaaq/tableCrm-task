@@ -8,7 +8,11 @@ import { Button } from '@/components/ui/button';
 import { FIELD_CONFIG } from '@/shared/constants/dialogs.constant';
 import { useAuth } from '@/shared/hooks/useAuthReturn';
 import { useTableCrmApi } from '@/shared/hooks/useTableCrmApi';
-import type { CreateOrderPayload, FieldKey, SelectedValues } from '@/shared/types/types';
+import type {
+    CreateOrderPayload,
+    FieldKey,
+    SelectedValues
+} from '@/shared/types/types';
 import PageLayout from '../layout/PageLayout';
 
 const OrderPage = () => {
@@ -22,7 +26,8 @@ const OrderPage = () => {
         warehouse: null,
         paybox: null,
         organization: null,
-        priceType: null
+        priceType: null,
+        nomenclature: []
     });
 
     const [openModals, setOpenModals] = useState<Record<FieldKey, boolean>>({
@@ -30,7 +35,8 @@ const OrderPage = () => {
         warehouse: false,
         paybox: false,
         organization: false,
-        priceType: false
+        priceType: false,
+        nomenclature: false
     });
 
     const handleOpenModal = (key: FieldKey) => {
@@ -41,20 +47,20 @@ const OrderPage = () => {
         setOpenModals(prev => ({ ...prev, [key]: false }));
     };
 
-    const handleSelect = <T extends FieldKey>(
-        key: T,
-        value: SelectedValues[T]
-    ) => {
-        setSelectedValues(prev => ({ ...prev, [key]: value }));
+    const handleSelect = (key: FieldKey, value: any) => {
+        setSelectedValues(prev => ({
+            ...prev,
+            [key]: key === 'nomenclature' ? value : value
+        }));
     };
-
     const createPayload = (status: boolean): CreateOrderPayload | null => {
         if (
             !selectedValues.client ||
             !selectedValues.warehouse ||
             !selectedValues.paybox ||
             !selectedValues.organization ||
-            !selectedValues.priceType
+            !selectedValues.priceType ||
+            !selectedValues.nomenclature
         ) {
             toast.error('Заполните все обязательные поля');
             return null;
@@ -95,7 +101,8 @@ const OrderPage = () => {
                     warehouse: null,
                     paybox: null,
                     organization: null,
-                    priceType: null
+                    priceType: null,
+                    nomenclature: []
                 });
             },
             onError: error => {
@@ -157,6 +164,7 @@ const OrderPage = () => {
                         field={field}
                         openModals={openModals}
                         dictionaries={dictionaries}
+                        selectedValues={selectedValues}
                         onOpen={handleOpenModal}
                         onClose={handleCloseModal}
                         onSelect={handleSelect}

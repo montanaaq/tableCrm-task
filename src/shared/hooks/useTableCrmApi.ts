@@ -53,6 +53,12 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
         enabled: !!token
     })
 
+    const nomenclatures = useQuery({
+        queryKey: queryKeys.nomenclature(token || ""),
+        queryFn: () => tableCrmApi.getNomenclature(token!),
+        enabled: !!token
+    })
+
     const orders = useQuery({
         queryKey: queryKeys.orders(token || ''),
         queryFn: () => tableCrmApi.getOrders(token!),
@@ -77,13 +83,15 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
         warehouses.isLoading ||
         payboxes.isLoading ||
         organizations.isLoading ||
-        priceTypes.isLoading
+        priceTypes.isLoading ||
+        nomenclatures.isLoading
 
     const dictionariesError =
         warehouses.error ||
         payboxes.error ||
         organizations.error ||
-        priceTypes.error
+        priceTypes.error ||
+        nomenclatures.error
 
     return {
         dictionaries: {
@@ -91,6 +99,7 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
             payboxes: payboxes.data?.result ?? [],
             organizations: organizations.data?.result ?? [],
             priceTypes: priceTypes.data?.result ?? [],
+            nomenclatures: nomenclatures.data?.result ?? [],
 
             isLoading: isLoadingDictionaries,
             error: dictionariesError,
@@ -100,6 +109,7 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
                 payboxes.refetch()
                 organizations.refetch()
                 priceTypes.refetch()
+                nomenclatures.refetch()
             },
         },
 

@@ -21,7 +21,7 @@ interface BaseSelectDialogProps<T> {
     isLoading?: boolean;
     error?: Error | null;
     onSelect: (item: T) => void;
-    renderItem: (item: T, onSelect: () => void) => React.ReactNode;
+    renderItem: (item: T) => React.ReactNode;
     searchable?: boolean;
     searchPlaceholder?: string;
     getSearchValue?: (item: T) => string;
@@ -43,7 +43,7 @@ export function BaseSelectDialog<T>({
     getSearchValue,
     emptyMessage = 'Ничего не найдено'
 }: BaseSelectDialogProps<T>) {
-    const [search, setSearch] = useState<string>('');
+    const [search, setSearch] = useState('');
 
     const filteredData =
         searchable && search && getSearchValue
@@ -94,15 +94,23 @@ export function BaseSelectDialog<T>({
                             </div>
                         ) : (
                             filteredData.map((item, index) => (
-                                <div
-                                    key={
-                                        (item as any).id ||
-                                        (item as any).name ||
-                                        index
-                                    }
+                                <button
+                                    key={(item as any).id || index}
+                                    onClick={() => handleSelect(item)}
+                                    onKeyDown={e => {
+                                        if (
+                                            e.key === 'Enter' ||
+                                            e.key === ' '
+                                        ) {
+                                            e.preventDefault();
+                                            handleSelect(item);
+                                        }
+                                    }}
+                                    type="button"
+                                    className="w-full text-left focus:outline-none focus:ring-2 focus:ring-primary rounded"
                                 >
-                                    {renderItem(item, () => handleSelect(item))}
-                                </div>
+                                    {renderItem(item)}
+                                </button>
                             ))
                         )}
                     </div>

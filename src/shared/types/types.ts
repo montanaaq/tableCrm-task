@@ -57,7 +57,7 @@ interface OrderGood {
     unit: number; // ID единицы измерения
     discount: number; // Процент или сумма скидки
     sum_discounted: number; // Сумма скидки
-    nomenclature: number; // ID товара
+    nomenclature: number | string; // ID товара
 }
 
 // ============= НАСТРОЙКИ ПОВТОРА =============
@@ -129,6 +129,7 @@ export interface IDictionaries {
     payboxes: Paybox[];
     organizations: Organization[];
     priceTypes: PriceType[];
+    nomenclatures: Nomenclature[];
     isLoading: boolean;
     error: Error | null;
     refetch: () => void;
@@ -139,7 +140,8 @@ export type FieldKey =
     | 'warehouse'
     | 'paybox'
     | 'organization'
-    | 'priceType';
+    | 'priceType'
+    | 'nomenclature';
 
 export type SelectedValues = {
     client: Contragent | null;
@@ -147,4 +149,5 @@ export type SelectedValues = {
     paybox: Paybox | null;
     organization: Organization | null;
     priceType: PriceType | null;
+    nomenclature: Nomenclature[];
 };
