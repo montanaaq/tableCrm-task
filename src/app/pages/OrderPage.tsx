@@ -8,30 +8,8 @@ import { Button } from '@/components/ui/button';
 import { FIELD_CONFIG } from '@/shared/constants/dialogs.constant';
 import { useAuth } from '@/shared/hooks/useAuthReturn';
 import { useTableCrmApi } from '@/shared/hooks/useTableCrmApi';
-import type {
-    Contragent,
-    CreateOrderPayload,
-    Organization,
-    Paybox,
-    PriceType,
-    Warehouse
-} from '@/shared/types/types';
+import type { CreateOrderPayload, FieldKey, SelectedValues } from '@/shared/types/types';
 import PageLayout from '../layout/PageLayout';
-
-export type FieldKey =
-    | 'client'
-    | 'warehouse'
-    | 'paybox'
-    | 'organization'
-    | 'priceType';
-
-export type SelectedValues = {
-    client: Contragent | null;
-    warehouse: Warehouse | null;
-    paybox: Paybox | null;
-    organization: Organization | null;
-    priceType: PriceType | null;
-};
 
 const OrderPage = () => {
     const { dictionaries, isCreatingOrder, createOrderMutation } =

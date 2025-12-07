@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import type { FieldKey, SelectedValues } from '@/app/pages/OrderPage';
-import type { Contragent } from '@/shared/types/types';
+import type { Contragent, FieldKey, SelectedValues } from '@/shared/types/types';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 

@@ -1,7 +1,6 @@
 import type { FC } from 'react';
-import type { FieldKey, SelectedValues } from '@/app/pages/OrderPage';
 import type { FieldConfigItem } from '@/shared/constants/dialogs.constant';
-import type { IDictionaries } from '@/shared/types/types';
+import type { FieldKey, IDictionaries, SelectedValues } from '@/shared/types/types';
 import { BaseSelectDialog } from '../dialogs/BaseSelectDialog';
 import { ClientSearchDialog } from '../dialogs/ClientSearchDialog';
 

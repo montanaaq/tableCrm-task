@@ -133,3 +133,18 @@ export interface IDictionaries {
     error: Error | null;
     refetch: () => void;
 }
+
+export type FieldKey =
+    | 'client'
+    | 'warehouse'
+    | 'paybox'
+    | 'organization'
+    | 'priceType';
+
+export type SelectedValues = {
+    client: Contragent | null;
+    warehouse: Warehouse | null;
+    paybox: Paybox | null;
+    organization: Organization | null;
+    priceType: PriceType | null;
+};
