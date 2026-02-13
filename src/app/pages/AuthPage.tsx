@@ -1,16 +1,24 @@
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import * as v from 'valibot';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/shared/hooks/useAuthReturn';
 import PageLayout from '../layout/PageLayout';
 
-interface Inputs {
-    token: string;
-}
+const authSchema = v.object({
+    token: v.pipe(
+        v.string('Токен должен быть строкой'),
+        v.trim(),
+        v.minLength(10, 'Токен должен быть больше 10 символов'),
+    )
+});
+
+type AuthInputs = v.InferOutput<typeof authSchema>;
 
 const AuthPage: FC = () => {
     const navigate = useNavigate();
@@ -18,7 +26,9 @@ const AuthPage: FC = () => {
         register,
         handleSubmit,
         formState: { errors, isSubmitting }
-    } = useForm<Inputs>();
+    } = useForm<AuthInputs>({
+        resolver: valibotResolver(authSchema)
+    });
     const { setToken, isAuthenticated } = useAuth();
 
     useEffect(() => {
@@ -28,7 +38,7 @@ const AuthPage: FC = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    const onSubmit = async (data: Inputs) => {
+    const onSubmit = async (data: AuthInputs) => {
         try {
             await setToken(data.token);
         } catch (e) {
@@ -48,19 +58,7 @@ const AuthPage: FC = () => {
                     className="w-full flex flex-col gap-2"
                 >
                     <Input
-                        {...register('token', {
-                            required: 'Токен обязателен',
-                            minLength: {
-                                value: 10,
-                                message:
-                                    'Токен должен содержать минимум 10 символов'
-                            },
-                            validate: {
-                                notEmpty: value =>
-                                    value.trim().length > 0 ||
-                                    'Токен не может быть пустым'
-                            }
-                        })}
+                        {...register('token')}
                         placeholder="Введите ваш токен"
                         className="h-12 placeholder:text-lg"
                         autoComplete="off"

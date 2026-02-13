@@ -6,9 +6,11 @@ const App: FC = () => {
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     useEffect(() => {
-        isAuthenticated
-            ? navigate('/auth', { replace: true })
-            : navigate('/order', { replace: true });
+        if (!isAuthenticated) {
+            navigate('/auth', { replace: true });
+        } else {
+            navigate('/order', { replace: true });
+        }
     }, [isAuthenticated, navigate]);
 
     return <div></div>;
