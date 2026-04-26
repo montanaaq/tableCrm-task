@@ -1,6 +1,5 @@
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import type { FC } from 'react';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -14,7 +13,7 @@ const authSchema = v.object({
     token: v.pipe(
         v.string('Токен должен быть строкой'),
         v.trim(),
-        v.minLength(10, 'Токен должен быть больше 10 символов'),
+        v.minLength(10, 'Токен должен быть больше 10 символов')
     )
 });
 
@@ -31,16 +30,13 @@ const AuthPage: FC = () => {
     });
     const { setToken, isAuthenticated } = useAuth();
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/order', { replace: true });
-            toast.success('Вы успешно вошли в аккаунт!');
-        }
-    }, [isAuthenticated, navigate]);
-
     const onSubmit = async (data: AuthInputs) => {
         try {
             await setToken(data.token);
+            if (isAuthenticated) {
+                navigate('/order', { replace: true });
+                toast.success('Вы успешно вошли в аккаунт!');
+            }
         } catch (e) {
             const message = e instanceof Error ? e.message : 'Произошла ошибка';
             toast.error(message);

@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -34,12 +34,6 @@ export function NomenclatureMultiSelectDialog({
     const [search, setSearch] = useState('');
     const [localSelected, setLocalSelected] = useState<Nomenclature[]>([]);
 
-    useEffect(() => {
-        if (open) {
-            setLocalSelected(selectedItems);
-        }
-    }, [open, selectedItems]);
-
     const filteredData = search
         ? data.filter(item =>
               item.name.toLowerCase().includes(search.toLowerCase())
@@ -50,12 +44,11 @@ export function NomenclatureMultiSelectDialog({
         localSelected.some(i => i.id === item.id);
 
     const handleToggle = (item: Nomenclature) => {
-        setLocalSelected(prev => {
-            if (isSelected(item)) {
-                return prev.filter(i => i.id !== item.id);
-            }
-            return [...prev, item];
-        });
+        setLocalSelected(prev =>
+            isSelected(item)
+                ? prev.filter(i => i.id !== item.id)
+                : [...prev, item]
+        );
     };
 
     const handleSave = () => {

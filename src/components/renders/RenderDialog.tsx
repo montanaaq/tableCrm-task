@@ -47,6 +47,7 @@ const RenderDialog: FC<RenderDialogProps> = ({
     if (key === 'nomenclature') {
         return (
             <NomenclatureMultiSelectDialog
+                key={String(open)}
                 open={isOpen}
                 onOpenChange={open => {
                     if (!open) onClose(key);

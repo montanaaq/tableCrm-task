@@ -54,7 +54,6 @@ export function ClientSearchDialog({
                             placeholder="+7 (999) 999-99-99"
                             value={phone}
                             onChange={e => setPhone(e.target.value)}
-                            autoFocus
                         />
                     </div>
 
