@@ -17,7 +17,7 @@ const OrderPage: FC = () => {
             </Button>
 
             <div className="max-w-xl mx-auto p-2">
-                <h2 className='text-xl font-bold mb-3'>Создать заказ</h2>
+                <h2 className="text-xl font-bold mb-3">Создать заказ</h2>
                 <OrderForm formState={formState} />
             </div>
         </PageLayout>
