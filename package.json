@@ -13,7 +13,7 @@
     },
     "lint-staged": {
         "**/*.{js,jsx,ts,tsx}": [
-            "biome lint --apply",
+            "biome lint & knip",
             "biome format --write"
         ]
     },
