@@ -26,25 +26,25 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true,
+            "preset": "recommended",
             "a11y": {
-                "recommended": true
+                "preset": "recommended"
             },
             "complexity": {
-                "recommended": true
+                "preset": "recommended"
             },
             "correctness": {
-                "recommended": true
+                "preset": "recommended"
             },
             "performance": {
-                "recommended": true
+                "preset": "recommended"
             },
             "style": {
-                "recommended": true,
+                "preset": "recommended",
                 "noUnusedTemplateLiteral": "off"
             },
             "suspicious": {
-                "recommended": true,
+                "preset": "recommended",
                 "noExplicitAny": "off"
             }
         }

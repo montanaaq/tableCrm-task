@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient, type UseMutationResult } from '@tanstack/react-query'
+import { useQuery, useMutation, type UseMutationResult } from '@tanstack/react-query'
 import { tableCrmApi} from '@/services/api/tableCrm.service'
 import type { CreateOrderPayload, IDictionaries, Order } from '@/shared/types/types'
 import { queryKeys } from '@/services/api/queryKeys'
@@ -6,13 +6,6 @@ import { useAuth } from './useAuthReturn'
 
 type UseTableCrmApiResult = {
     dictionaries: IDictionaries;
-
-    orders: {
-        data: any[];
-        isLoading: boolean;
-        error: Error | null;
-        refetch: () => void;
-    };
 
     createOrderMutation: UseMutationResult<Order[], Error, CreateOrderPayload, unknown>
 
@@ -25,7 +18,6 @@ type UseTableCrmApiResult = {
 
 export const useTableCrmApi = (): UseTableCrmApiResult => {
     const { token } = useAuth()
-    const queryClient = useQueryClient()
 
     // ============= Queries =============
 
@@ -59,22 +51,11 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
         enabled: !!token
     })
 
-    const orders = useQuery({
-        queryKey: queryKeys.orders(token || ''),
-        queryFn: () => tableCrmApi.getOrders(token!),
-        enabled: !!token
-    })
-
     // ============= MUTATIONS =============
 
     const createOrderMutation = useMutation({
         mutationFn: (payload: CreateOrderPayload) => 
-            tableCrmApi.createOrder(token!, payload), 
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.orders(token || ''),
-            })
-        },
+            tableCrmApi.createOrder(token!, payload)
     })
 
     // ============= COMPUTED VALUES =============
@@ -111,13 +92,6 @@ export const useTableCrmApi = (): UseTableCrmApiResult => {
                 priceTypes.refetch()
                 nomenclatures.refetch()
             },
-        },
-
-        orders: {
-            data: orders.data?.result ?? [],
-            isLoading: orders.isLoading,
-            error: orders.error,
-            refetch: orders.refetch,
         },
 
         createOrderMutation,

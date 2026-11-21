@@ -1,10 +1,21 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { FC } from 'react';
 import { OrderForm } from '@/components/forms/OrderForm';
 import { Button } from '@/components/ui/button';
 import { useOrderForm } from '@/shared/hooks/useOrderForm';
 import PageLayout from '../layout/PageLayout';
 
-const OrderPage: FC = () => {
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 5 * 60 * 1000,
+            refetchOnWindowFocus: false,
+            retry: 1
+        }
+    }
+});
+
+const OrderPageContent: FC = () => {
     const formState = useOrderForm();
 
     return (
@@ -23,5 +34,11 @@ const OrderPage: FC = () => {
         </PageLayout>
     );
 };
+
+const OrderPage: FC = () => (
+    <QueryClientProvider client={queryClient}>
+        <OrderPageContent />
+    </QueryClientProvider>
+);
 
 export default OrderPage;

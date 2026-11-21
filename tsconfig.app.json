@@ -25,7 +25,6 @@
         "noUncheckedSideEffectImports": true,
 
         // beautiful paths
-        "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
         }

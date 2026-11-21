@@ -1,3 +1,5 @@
 # Created by Bun + Vite + React 19
 
-### stack of tech: Bun (package manager), Vite + rolldown vite, React 19 (with React-Compiler), Axios, @Tanstack/query, Shadcn + Tailwind, Biome.js (Formatting and linting) + Knip, React-router (routing), Sonner (for notifications), Babel and ESLint (for best practice)
+Requires Bun and Node.js 22.22.1+ (22.x) or 24+.
+
+### stack of tech: Bun (package manager), Vite with Rolldown, React 19 (with React Compiler), Axios, TanStack Query, Shadcn + Tailwind, Biome + Knip, React Router, Sonner, Babel and ESLint

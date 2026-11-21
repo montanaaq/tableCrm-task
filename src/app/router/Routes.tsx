@@ -5,7 +5,8 @@ import {
     type ReactElement,
     Suspense
 } from 'react';
-import type { RouteObject } from 'react-router';
+import { type RouteObject, useRoutes } from 'react-router';
+import App from '@/app/App';
 import { Spinner } from '@/components/ui/spinner';
 import PrivateRoute from './PrivateRoute';
 
@@ -17,15 +18,14 @@ const withSuspense = (
     </Suspense>
 );
 
-const App = lazy(() => import('@/app/App'));
 const AuthPage = lazy(() => import('@/app/pages/AuthPage'));
 const OrderPage = lazy(() => import('@/app/pages/OrderPage'));
 const NotFoundPage = lazy(() => import('@/app/pages/NotFoundPage'));
 
-export const routes: RouteObject[] = [
+const routes: RouteObject[] = [
     {
         path: '/',
-        element: withSuspense(App)
+        element: <App />
     },
     {
         path: '/auth',
@@ -46,3 +46,7 @@ export const routes: RouteObject[] = [
         Component: NotFoundPage
     }
 ];
+
+export default function Router() {
+    return useRoutes(routes);
+}

@@ -1,5 +1,5 @@
+import type { AxiosError } from 'axios'
 import { useCallback, useEffect, useState } from 'react'
-import { tableCrmApi } from '@/services/api/tableCrm.service'
 
 interface UseAuthReturn {
     token: string | null
@@ -35,14 +35,19 @@ export const useAuth = (): UseAuthReturn => {
         }
 
         try {
+            const { tableCrmApi } = await import('@/services/api/tableCrm.service')
             await tableCrmApi.validateToken(normalized)
             sessionStorage.setItem(TOKEN_KEY, normalized)
             setTokenState(normalized)
-        } catch (error: any) {
-            if (error?.response?.status === 403) {
-                throw new Error('Неверный токен')
+        } catch (error) {
+            if (
+                error instanceof Error &&
+                'isAxiosError' in error &&
+                (error as AxiosError).response?.status === 403
+            ) {
+                throw new Error('Неверный токен', { cause: error })
             }
-            throw new Error('Ошибка при проверке токена')
+            throw new Error('Ошибка при проверке токена', { cause: error })
         }
     }, [])
 
